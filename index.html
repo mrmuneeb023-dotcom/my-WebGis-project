@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WebGIS Navigation Dashboard | Abdul Muneeb</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">🗺️</div>
+
+                <div>
+                    <h2>GeoNavigate</h2>
+                    <p>WEBGIS PLATFORM</p>
+                </div>
+            </div>
+
+            <div class="sidebar-heading">
+                <span class="section-dot"></span>
+                NAVIGATION MENU
+            </div>
+
+            <div class="navigation-item active">
+                <span>▦</span>
+                Dashboard
+            </div>
+
+            <div class="sidebar-heading location-heading">
+                EXPLORE ISLAMABAD
+            </div>
+
+            <!-- Location 1 -->
+            <button class="location-card"
+                    data-location="faisal">
+
+                <div class="location-icon blue-icon">🕌</div>
+
+                <div class="location-details">
+                    <h3>Faisal Mosque</h3>
+                    <p>Shah Faisal Avenue</p>
+                    <span class="location-type">RELIGIOUS SITE</span>
+                </div>
+
+                <span class="arrow">↗</span>
+            </button>
+
+            <!-- Location 2 -->
+            <button class="location-card"
+                    data-location="monument">
+
+                <div class="location-icon orange-icon">🏛️</div>
+
+                <div class="location-details">
+                    <h3>Pakistan Monument</h3>
+                    <p>Shakarparian Hills</p>
+                    <span class="location-type">LANDMARK</span>
+                </div>
+
+                <span class="arrow">↗</span>
+            </button>
+
+            <!-- Location 3 -->
+            <button class="location-card"
+                    data-location="lake">
+
+                <div class="location-icon green-icon">🌳</div>
+
+                <div class="location-details">
+                    <h3>Rawal Lake</h3>
+                    <p>Rawal Lake View Park</p>
+                    <span class="location-type">RECREATION</span>
+                </div>
+
+                <span class="arrow">↗</span>
+            </button>
+
+            <div class="sidebar-note">
+                <span>💡</span>
+
+                <div>
+                    <strong>Navigation Tip</strong>
+                    <p>Allow location access to calculate a route from your current position.</p>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <span class="online-dot"></span>
+                OpenStreetMap Connected
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- TOP HEADER -->
+            <header class="topbar">
+
+                <div>
+                    <p class="breadcrumb">WEBGIS / LAB 03 / DASHBOARD</p>
+
+                    <h1>Interactive Navigation Dashboard</h1>
+
+                    <p class="subtitle">
+                        Explore Islamabad and discover your route.
+                    </p>
+                </div>
+
+                <div class="header-right">
+
+                    <div class="city-badge">
+                        <span>📍</span>
+                        Islamabad, Pakistan
+                    </div>
+
+                    <button id="locateBtn" class="current-location-btn">
+                        <span>◎</span>
+                        My Location
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- STATISTICS -->
+            <section class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">📍</div>
+
+                    <div>
+                        <p>DESTINATIONS</p>
+                        <h2>03</h2>
+                        <span>Islamabad locations</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">🧭</div>
+
+                    <div>
+                        <p>ROUTE STATUS</p>
+                        <h2 id="routeStatus">Ready</h2>
+                        <span id="routeStatusText">Select a destination</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">↗</div>
+
+                    <div>
+                        <p>TRAVEL DISTANCE</p>
+                        <h2 id="distanceValue">--</h2>
+                        <span>Road distance</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">◷</div>
+
+                    <div>
+                        <p>ESTIMATED TIME</p>
+                        <h2 id="timeValue">--</h2>
+                        <span>Driving estimate</span>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- MAP SECTION -->
+            <section class="map-panel">
+
+                <div class="map-header">
+
+                    <div>
+                        <h2>Live Navigation Map</h2>
+
+                        <p>
+                            Interactive map powered by OpenStreetMap
+                        </p>
+                    </div>
+
+                    <div class="map-status">
+                        <span class="online-dot"></span>
+                        MAP ACTIVE
+                    </div>
+
+                </div>
+
+                <div id="map"></div>
+
+                <div class="map-footer">
+
+                    <div class="legend-item">
+                        <span class="legend-dot blue-dot"></span>
+                        Selected Destination
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot green-dot"></span>
+                        Your Location
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-line"></span>
+                        Driving Route
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- BOTTOM CONTENT -->
+            <section class="bottom-grid">
+
+                <!-- ROUTE DETAILS -->
+                <div class="content-card">
+
+                    <div class="card-title">
+                        <div>
+                            <h2>Route Information</h2>
+                            <p>Selected destination details</p>
+                        </div>
+
+                        <span class="info-icon">ⓘ</span>
+                    </div>
+
+                    <div class="route-destination">
+
+                        <div class="destination-marker">📍</div>
+
+                        <div>
+                            <span class="small-label">DESTINATION</span>
+                            <h3 id="destinationName">No destination selected</h3>
+                            <p id="destinationAddress">
+                                Choose a location from the sidebar.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="route-metrics">
+
+                        <div>
+                            <span>Distance</span>
+                            <strong id="detailDistance">--</strong>
+                        </div>
+
+                        <div>
+                            <span>Duration</span>
+                            <strong id="detailTime">--</strong>
+                        </div>
+
+                    </div>
+
+                    <button id="routeBtn" class="route-button">
+                        <span>➤</span>
+                        Find Route
+                    </button>
+
+                </div>
+
+
+                <!-- STUDENT PROFILE -->
+                <div class="content-card student-card">
+
+                    <div class="card-title">
+                        <div>
+                            <h2>Student Profile</h2>
+                            <p>Academic information</p>
+                        </div>
+
+                        <span class="profile-badge">STUDENT</span>
+                    </div>
+
+                    <div class="student-profile">
+
+                        <div class="avatar">AM</div>
+
+                        <div>
+                            <h3>Abdul Muneeb</h3>
+                            <p>WebGIS Development Student</p>
+                        </div>
+
+                    </div>
+
+                    <div class="profile-divider"></div>
+
+                    <div class="profile-row">
+                        <span>ARID Number</span>
+                        <strong>24 ARID 2194</strong>
+                    </div>
+
+                    <div class="profile-row">
+                        <span>Study Area</span>
+                        <strong>Islamabad</strong>
+                    </div>
+
+                    <div class="profile-row">
+                        <span>Lab Assignment</span>
+                        <strong>Lab 03</strong>
+                    </div>
+
+                    <div class="profile-row">
+                        <span>Course</span>
+                        <strong>WebGIS Development</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="page-footer">
+                <span>© 2026 GeoNavigate Dashboard</span>
+
+                <span>
+                    Developed by <strong>Abdul Muneeb</strong>
+                    | ARID 24 ARID 2194
+                </span>
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Application JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
